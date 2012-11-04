@@ -1,4 +1,3 @@
-#include"point_turn.c"
 #pragma config(Sensor, in1,    lnf_0,    sensorLineFollower)
 #pragma config(Sensor, in2,    lnf_1,    sensorLineFollower)
 #pragma config(Sensor, in3,    lnf_2,    sensorLineFollower)
@@ -22,10 +21,10 @@ task main() {
   int angel = rev*360;
 
   // Clear sensors.
-  SensorValue(quad_w) = 0;
-  SensorValue(quad_e) = 0;
+  SensorValue[quad_w] = 0;
+  SensorValue[quad_e] = 0;
 
-  while(SensorValue(quad_e) <= angel && SensorValue(quad_w) >= -1*angel) {
+  while(SensorValue[quad_e] <= angel && SensorValue[quad_w] >= -1*angel) {
     motor[motor_w] = POWER;
 	motor[motor_e] = POWER;
   }

@@ -27,7 +27,7 @@
 #define POWER 63
 
 task main() {
-  //int speed = SensorValue[pot]/32;
+  //int speed = SensorValue[poten]/32;
 
   // Going forward for .5 sec
   motor[motor_w] = POWER;

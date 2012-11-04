@@ -20,12 +20,14 @@ void swing_turn(int dir, int power, float track, float wheel_size) {
   SensorValue[quad_w] = 0;
   SensorValue[quad_e] = 0;
 
+  // Left
   if(!dir) {
-    while(SensorValue(quad_e) <= angle)
+    while(SensorValue[quad_e] <= angle)
 	  motor[motor_e] = power;
   }
-  else {
-    while(SensorValue(quad_w) <= angle)
+  // Right
+  else if(dir) {
+    while(SensorValue[quad_w] <= angle)
 	  motor[motor_w] = power;
   }
 }

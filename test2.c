@@ -21,7 +21,7 @@
 
 void run(int dir, int power) {
   // Run until 20cm away from obsticle.
-  while(SensorValue(sonar) >= 20 || SensorValue(sonar) == -1) {
+  while(SensorValue[sonar] >= 20 || SensorValue[sonar] == -1) {
     motor[motor_w] = power;
 	motor[motor_e] = power;
   }
