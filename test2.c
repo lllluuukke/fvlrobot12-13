@@ -13,8 +13,6 @@
 
 /*****************************************************************************
  * EXPERIMENTAL! 
- * This file is intend to test sonar-controlled movements.
- *
  * Test 2: Sonar-controlled robot that never run into the wall.
  ****************************************************************************/
 #define POWER 63
@@ -38,3 +36,4 @@ void run(int dir, int power) {
 task main() {
   run(1, POWER);
 }
+

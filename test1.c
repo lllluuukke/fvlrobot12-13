@@ -12,8 +12,6 @@
 #pragma config(Motor,  port10, motor_e,  tmotorVex269,      openLoop, reversed)
 
 /*****************************************************************************
- * This file is intend to test basic sensor-controlled movements.
- *
  * Test 1: Quadrature-controlled movements.
  * Go forward 1 wheel turn
  ****************************************************************************/
