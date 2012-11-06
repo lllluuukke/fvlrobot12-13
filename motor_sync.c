@@ -27,14 +27,14 @@ void motor_sync(int power_w, int power_e) {
   motor[motor_e] = power_e;
   wait10Msec(100);
 
-  // Compare sensor values and make change if differnect greater than 1%.
-  // Then run for 10 sec.
+  // Compare sensor values and make change if differnet greater than 1%.
   sen_w = abs(ensorValue[quad_w]);
   sen_e = abs(SensorValue[quad_e]);
   if(abs(sen_w - sen_e) > 4) {
 	power_e = sen_w > sen_e ? power_e + 1 : power_e - 1;
     motor_sync(power_w, power_e)
   }
+  // Then run for 10 sec.
   else {
     motor[motor_w] = power_w;
     motor[motor_e] = power_e;

@@ -4,9 +4,9 @@
 #pragma config(Sensor, in4,    poten,    sensorPotentiometer)
 #pragma config(Sensor, dgtl1,  quad_e,   sensorQuadEncoder)
 #pragma config(Sensor, dgtl3,  quad_w,   sensorQuadEncoder)
-#pragma config(Sensor, dgtl5,  touch_w,  sensorTouch)
-#pragma config(Sensor, dgtl6,  touch_e,  sensorTouch)
-#pragma config(Sensor, dgtl7,  sonar,    sensorSONAR_inch)
+#pragma config(Sensor, dgtl6,  touch_w,  sensorTouch)
+#pragma config(Sensor, dgtl7,  touch_e,  sensorTouch)
+#pragma config(Sensor, dgtl8,  sonar,    sensorSONAR_inch)
 #pragma config(Motor,  port1,  motor_w,  tmotorVex269,      openLoop)
 #pragma config(Motor,  port10, motor_e,  tmotorVex269,      openLoop, reversed)
 
@@ -24,7 +24,7 @@ task main() {
   SensorValue[quad_w] = 0;
   SensorValue[quad_e] = 0;
 
-  while(SensorValue[quad_e] <= angel && SensorValue[quad_w] >= -1*angel) {
+  while(SensorValue[quad_e] <= angel && SensorValue[quad_w] <= angel) {
     motor[motor_w] = POWER;
 	motor[motor_e] = POWER;
   }

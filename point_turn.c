@@ -22,16 +22,16 @@ void point_turn(int dir, int power, float track, float wheel_size) {
 
   // Left
   if(!dir) {
-    while(SensorValue[quad_e] <= angle && SensorValue[quad_w] >= -1*angle) {
+    while(SensorValue[quad_e] <= angle && SensorValue[quad_w] <= angle) {
       motor[motor_w] = -1*power;
-	  motor[motor_e] = power;
+      motor[motor_e] = power;
     }
   }
   // Right
   else if(dir) {
-    while(SensorValue[quad_e] >= -1*angle && SensorValue[quad_w] <= angle) {
+    while(SensorValue[quad_e] <= angle && SensorValue[quad_w] <= angle) {
       motor[motor_w] = power;
-	  motor[motor_e] = -1*power;
+      motor[motor_e] = -1*power;
 	}
   }
 }
