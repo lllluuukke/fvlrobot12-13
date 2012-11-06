@@ -11,23 +11,22 @@
 #pragma config(Motor,  port10, motor_e,  tmotorVex269,      openLoop, reversed)
 #include"point_turn.c"
 
-/*****************************************************************************
- * EXPERIMENTAL! 
+/******************************************************************************
  * Test 2: Sonar-controlled robot that never run into the wall.
- ****************************************************************************/
+ *****************************************************************************/
 #define POWER 63
 #define TRACK 5.5
 #define WHEEL_SIZE 1.75
 
 void run(int dir, int power) {
   // Run until 20cm away from obsticle.
-  while(SensorValue(sonar) >= 20 || SensorValue(sonar) == -1) {
+  while(SensorValue(sonar) >= 30 || SensorValue(sonar) == -1) {
     motor[motor_w] = power;
     motor[motor_e] = power;
   }
   
   // Point-turn to left/right.
-  point_turn(dir, power, TRACK, WHEEL_SIZE);
+  swing_turn(dir, power, TRACK, WHEEL_SIZE);
 
   // Keep going.
   run(dir, power);
