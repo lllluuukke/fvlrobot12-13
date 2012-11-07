@@ -7,12 +7,13 @@
 #pragma config(Sensor, dgtl6,  touch_w,  sensorTouch)
 #pragma config(Sensor, dgtl7,  touch_e,  sensorTouch)
 #pragma config(Sensor, dgtl8,  sonar,    sensorSONAR_inch)
-#pragma config(Motor,  port1,  motor_w,  tmotorVex269,      openLoop)
-#pragma config(Motor,  port10, motor_e,  tmotorVex269,      openLoop, reversed)
+#pragma config(Motor,  port2,  motor_w,  tmotorVex393,      openLoop)
+#pragma config(Motor,  port3,  motor_e,  tmotorVex393,      openLoop, reversed)
 
 #include"test0.c"
 #include"test1.c"
 #include"test2.c"
+#include"motor_sync.c"
 #include"point_turn.c"
 #include"swing_turn.c"
 
@@ -22,7 +23,8 @@
 #define WHEEL_SIZE 1.75
 
 task main() {
-  void test0();
-  void test1();
-  void test2();
+  test0();
+  test1();
+  test2();
+  motor_sync()
 }
