@@ -8,7 +8,30 @@
  * This file controls a holonomic x-formed robot base.
  ****************************************************************************/
 #define POWER 63
+#define TIME 2
 
-void drive() {
-  
+void move(int dir) {
+  motor[motor_ne] = ((dir*dir+2)%3-1)*POWER;
+  motor[motor_se] = (1-2*(dir&1))*POWER;
+  motor[motor_sw] = (1-(dir*dir+2)%3)*POWER;
+  motor[motor_nw] = (2*(dir&1)-1)*POWER;
+  wait10Msec(100*TIME);
+
 }
+
+void forward(int time) {
+  move(0);
+}
+
+void backward(int time) {
+  move(1);
+}
+
+void move_left(int time) {
+  move(2);
+}
+
+void move_right(int time) {
+  move(3);
+}
+
