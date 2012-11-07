@@ -3,10 +3,10 @@
 #pragma config(Motor,  port3,  motor_sw,  tmotorVex269,  openLoop, reversed)
 #pragma config(Motor,  port4,  motor_nw,  tmotorVex269,  openLoop, reversed)
 
-/*****************************************************************************
+/******************************************************************************
  * EXPERIMENTAL!!!
  * This file controls a holonomic x-formed robot base.
- ****************************************************************************/
+ *****************************************************************************/
 #define POWER 63
 #define TIME 2
 
@@ -19,19 +19,44 @@ void move(int dir) {
 
 }
 
-void forward(int time) {
+void forward() {
   move(0);
 }
 
-void backward(int time) {
+void backward() {
   move(1);
 }
 
-void move_left(int time) {
+void move_left() {
   move(2);
 }
 
-void move_right(int time) {
+void move_right() {
   move(3);
 }
 
+void turn(int dir) {
+  pwr = dir?-1:1;
+  motor[motor_ne] = pwr*POWER;
+  motor[motor_se] = pwr*POWER;
+  motor[motor_sw] = pwr*POWER;
+  motor[motor_nw] = pwr*POWER;
+  wait10Msec(100*TIME);
+}
+
+void turn_left() {
+  turn(0);
+}
+
+void turn_right() {
+  turn(1);
+}
+
+task main() {
+  forward();
+  backward();
+  move_left();
+  move_right();
+  turn_left();
+  turn_right();
+}

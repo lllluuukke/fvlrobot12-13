@@ -3,9 +3,10 @@
  *****************************************************************************/
 
 void turn() {
-  // Stop motors.
-  motor[motor_w] = 0;
-  motor[motor_e] = 0;
+  // Backup for 1 sec.
+  motor[motor_w] = -1*POWER;
+  motor[motor_e] = -1*POWER;
+  wait10Msec(100);
   // Clear sensors.
   SensorValue[quad_w] = 0;
   SensorValue[quad_e] = 0;
