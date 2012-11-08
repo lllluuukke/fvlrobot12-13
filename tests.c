@@ -65,6 +65,7 @@ void test0() {
   wait10Msec(TIME);
 }
 
+
 /*****************************************************************************
  * Test 1: Quadrature-controlled movements.
  * Go forward 1 wheel turn
