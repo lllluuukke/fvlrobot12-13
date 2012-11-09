@@ -1,8 +1,8 @@
-#pragma config(Sensor, dgtl1,  touch,          sensorTouch)
-#pragma config(Motor,  port2,           motor_ne,      tmotorVex269, openLoop, reversed)
-#pragma config(Motor,  port3,           motor_se,      tmotorVex269, openLoop, reversed)
-#pragma config(Motor,  port4,           motor_sw,      tmotorVex269, openLoop, reversed)
-#pragma config(Motor,  port5,           motor_nw,      tmotorVex269, openLoop, reversed)
+#pragma config(Sensor, dgtl1,  touch,    sensorTouch)
+#pragma config(Motor,  port2,  motor_ne, tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port3,  motor_se, tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port4,  motor_sw, tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port5,  motor_nw, tmotorVex269, openLoop, reversed)
 
 /******************************************************************************
  * EXPERIMENTAL!!!
