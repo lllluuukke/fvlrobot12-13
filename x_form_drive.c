@@ -10,31 +10,36 @@
  * This file enables remote control of a holonomic x-formed robot base.
  *****************************************************************************/
 #define SIN45 .8509
+#define MIN(X,Y) ((X) < (Y) ? : (X) : (Y))
+#define MAX(X,Y) ((X) > (Y) ? : (X) : (Y))
 
-int max(int left, int right) {
-  if(left > right)
-    return left;
+int _max(int x, int y) {return x ^ ((x ^ y) & -(x < y));}
+int _min(int x, int y) {return y ^ ((x ^ y) & -(x < y));}
+
+int max(int a, int b) {
+  if(a > b)
+    return a;
   else
-    return right;
+    return b;
 }
 
-int min(int left, int right) {
-  if(left > right)
-    return right;
+int min(int a, int b) {
+  if(a > b)
+    return b;
   else
-    return left;
+    return a;
 }
 
-int struggle(int left, int right) {
-  if(abs(left*right) != left*right || left*right == 0)
-    return left+right;
-  else if(left == right)
-    return left;
+int struggle(int a, int b) {
+  if(abs(a*b) != a*b || a*b == 0)
+    return a+b;
+  else if(a == b)
+    return a;
   else {
-    if(left > 0)
-	  return max(left, right);
+    if(a > 0)
+	  return max(a, b);
 	else
-	  return min(left, right);
+	  return min(a, b);
   }
 }
 
