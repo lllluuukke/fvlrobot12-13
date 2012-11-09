@@ -49,7 +49,7 @@ task main() {
     motor[motor_se] = (int)((float)(vexRT[ch4]+vexRT[ch3])*SIN45);
     motor[motor_sw] = (int)((float)(vexRT[ch4]-vexRT[ch3])*SIN45);
     motor[motor_nw] = (int)(-1*(float)(vexRT[ch4]+vexRT[ch3])*SIN45);
-    // EXPERIMENTAL!!!
+    // EXPERIMENTAL ONE!!!
     motor[motor_ne] =
 	    (int)((float)(vexRT[ch3]-struggle(vexRT[ch4], vexRT[ch1]))*SIN45);
     motor[motor_se] =
@@ -58,5 +58,14 @@ task main() {
 	    (int)((float)(struggle(vexRT[ch4], vexRT[ch1])-vexRT[ch3])*SIN45);
     motor[motor_nw] =
 	    (int)(-1*(float)(struggle(vexRT[ch4], vexRT[ch1])+vexRT[ch3])*SIN45);
+    // EXPERIMENTAL TWO!!!
+    motor[motor_ne] =
+	    (int)struggle((float)(vexRT[ch3]-vexRT[ch4])*SIN45, vexRT[ch1]);
+    motor[motor_se] =
+	    (int)struggle((float)(vexRT[ch4]+vexRT[ch3])*SIN45, vexRT[ch1]);
+    motor[motor_sw] =
+	    (int)struggle((float)(vexRT[ch4]-vexRT[ch3])*SIN45, vexRT[ch1]);
+    motor[motor_nw] =
+	    (int)struggle(-1*(float)(vexRT[ch4]+vexRT[ch3])*SIN45, vexRT[ch1]);
   }
 }
