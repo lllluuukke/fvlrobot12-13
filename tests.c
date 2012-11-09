@@ -171,10 +171,12 @@ task main() {
   SensorValue[quad_w] = 0;
   SensorValue[quad_e] = 0;
 
- // declare power vars for each motor.
-  int power_w = POWER;
-  int power_e = POWER;
+  // declare power vars for each motor.
+  //int power_w = POWER;
+  //int power_e = POWER;
 
   while(1)
-    motor_sync(power_w, power_e);
+    //motor_sync(power_w, power_e);
+    if(SensorValue[touch_w] || SensorValue[touch_e])
+      test2();
 }

@@ -1,7 +1,8 @@
-#pragma config(Motor,  port2,  motor_ne,  tmotorVex269,  openLoop)
-#pragma config(Motor,  port3,  motor_se,  tmotorVex269,  openLoop)
-#pragma config(Motor,  port4,  motor_sw,  tmotorVex269,  openLoop)
-#pragma config(Motor,  port5,  motor_nw,  tmotorVex269,  openLoop)
+#pragma config(Sensor, dgtl1,  touch,          sensorTouch)
+#pragma config(Motor,  port2,           motor_ne,      tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port3,           motor_se,      tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port4,           motor_sw,      tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port5,           motor_nw,      tmotorVex269, openLoop, reversed)
 
 /******************************************************************************
  * EXPERIMENTAL!!!
@@ -36,7 +37,7 @@ void move_right() {
 }
 
 void turn(int dir) {
-  pwr = dir?-1:1;
+  int pwr = dir?-1:1;
   motor[motor_ne] = pwr*POWER;
   motor[motor_se] = pwr*POWER;
   motor[motor_sw] = pwr*POWER;
@@ -52,11 +53,44 @@ void turn_right() {
   turn(1);
 }
 
-task main() {
-  forward();
-  backward();
-  move_left();
-  move_right();
-  turn_left();
-  turn_right();
+void _stop() {
+  motor[motor_ne] = 0;
+  motor[motor_se] = 0;
+  motor[motor_sw] = 0;
+  motor[motor_nw] = 0;
 }
+
+task main() {
+  while(1) {
+    if(SensorValue[touch]) {
+      forward();
+      backward();
+      move_left();
+      move_right();
+      turn_left();
+      turn_right();
+      _stop();
+    }
+  }
+}
+
+/*task main() {
+  int pw=20;
+  while(!SensorValue[touch]) {
+    motor[motor_ne] = pw;
+    motor[motor_se] = pw;
+    motor[motor_sw] = pw;
+    motor[motor_nw] = pw;
+    wait10Msec(TIME*200);
+    motor[motor_ne] = 0;
+    pw-=1;
+  }
+  motor[motor_ne] = pw;
+  motor[motor_se] = pw;
+  motor[motor_sw] = pw;
+  motor[motor_nw] = pw;
+}*/
+
+// Lowest idle level: 10
+// Lowest empty level: 12
+// Lowest full-load level: 18
