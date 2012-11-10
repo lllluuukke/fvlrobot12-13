@@ -10,25 +10,8 @@
  * This file enables remote control of a holonomic x-formed robot base.
  *****************************************************************************/
 #define SIN45 .8509
-#define MIN(X,Y) ((X) < (Y) ? : (X) : (Y))
-#define MAX(X,Y) ((X) > (Y) ? : (X) : (Y))
-
-int _max(int x, int y) {return x ^ ((x ^ y) & -(x < y));}
-int _min(int x, int y) {return y ^ ((x ^ y) & -(x < y));}
-
-int max(int a, int b) {
-  if(a > b)
-    return a;
-  else
-    return b;
-}
-
-int min(int a, int b) {
-  if(a > b)
-    return b;
-  else
-    return a;
-}
+#define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
+#define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
 
 int struggle(int a, int b) {
   if(abs(a*b) != a*b || a*b == 0)
@@ -37,14 +20,13 @@ int struggle(int a, int b) {
     return a;
   else {
     if(a > 0)
-	  return max(a, b);
-	else
-	  return min(a, b);
+	  return MAX(a, b);
+    return MIN(a, b);
   }
 }
 
 task main() {
-  while(1) {
+  while(!SensorValue[touch]) {
     // EXPERIMENTAL TWO!!!
     motor[motor_ne] =
 	    (int)struggle((float)(vexRT[ch3]-vexRT[ch4])*SIN45, -1*vexRT[ch1]);
@@ -54,5 +36,10 @@ task main() {
 	    (int)struggle((float)(vexRT[ch4]-vexRT[ch3])*SIN45, -1*vexRT[ch1]);
     motor[motor_nw] =
 	    (int)struggle(-1*(float)(vexRT[ch4]+vexRT[ch3])*SIN45, -1*vexRT[ch1]);
+    // EXPERIMENTAL THREE!!!
+    motor[motor_ne] = (int)struggle((float)(vexRT[ch3]-vexRT[ch4])*sin(atan(vexRT[ch3]/vexRT[ch4])), -1*vexRT[ch1]);
+    motor[motor_se] = (int)struggle((float)(vexRT[ch4]+vexRT[ch3])*sin(atan(vexRT[ch3]/vexRT[ch4])), -1*vexRT[ch1]);
+    motor[motor_sw] = (int)struggle((float)(vexRT[ch4]-vexRT[ch3])*sin(atan(vexRT[ch3]/vexRT[ch4])), -1*vexRT[ch1]);
+    motor[motor_nw] = (int)struggle(-1*(float)(vexRT[ch4]+vexRT[ch3])*sin(atan(vexRT[ch3]/vexRT[ch4])), -1*vexRT[ch1]);
   }
 }
