@@ -61,6 +61,7 @@ int cal(int quad) {
 }
 
 task main() {
+  int left = 0, right = 0, ratio = 0;
   while(!SensorValue[touch]) {
     if(vexRT[Btn5U] || vexRT[Btn5D] || vexRT[Btn6U] || vexRT[Btn6D] ||
       vexRT[Btn7U] || vexRT[Btn7R] || vexRT[Btn7D] || vexRT[Btn7L] ||
@@ -69,34 +70,34 @@ task main() {
       motor[motor_ne] = 0;
       motor[motor_ne] = 0;
       motor[motor_ne] = 0;
-   }
-   else {
-     // EXPERIMENT TWO!!!
-     motor[motor_ne] =
-	   struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*SIN45),
-	   -1*vexRT[Ch1]/2);
-     motor[motor_se] =
-	   struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*SIN45),
-	   -1*vexRT[Ch1]/2);
-     motor[motor_sw] =
-	   struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45),
-	   -1*vexRT[Ch1]/2);
-     motor[motor_nw] =
-	   struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45),
-	   -1*vexRT[Ch1]/2);
-     // EXPERIMENT FOUR!!!
-     motor[motor_ne] =
-	   struggle(cal(1)*(int)sqrt(PW2(vexRT[Ch3])+PW2(vexRT[Ch4])),
-	   -1*vexRT[Ch1]/2);
-     motor[motor_se] =
-	   struggle(cal(4)*(int)sqrt(PW2(vexRT[Ch3])+PW2(vexRT[Ch4])),
-	   -1*vexRT[Ch1]/2);
-     motor[motor_sw] =
-	   struggle(cal(3)*(int)sqrt(PW2(vexRT[Ch3])+PW2(vexRT[Ch4])),
-	   -1*vexRT[Ch1]/2);
-     motor[motor_nw] =
-	   struggle(cal(2)*(int)sqrt(PW2(vexRT[Ch3])+PW2(vexRT[Ch4])),
-	   -1*vexRT[Ch1]/2);
-	 }
+    }
+    else {
+	  right = -vexRT[Ch1]/2;
+      // EXPERIMENT TWO
+      motor[motor_ne] =
+	   struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*SIN45), right);
+      motor[motor_se] =
+	   struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
+      motor[motor_sw] =
+	   struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45), right);
+      motor[motor_nw] =
+	   struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
+      // EXPERIMENT FOUR
+	  left = sqrt((float)(PW2(vexRT[Ch3])+PW2(vexRT[Ch4])));
+      motor[motor_ne] = struggle(cal(1)*left, right);
+      motor[motor_se] = struggle(cal(4)*left, right);
+      motor[motor_sw] = struggle(cal(3)*left, right);
+      motor[motor_nw] = struggle(cal(2)*left, right);
+	  // EXPERIMENT FIVE
+	  ratio = abs(sin(atan((vexRT[Ch3]/vexRT[Ch4])));
+      motor[motor_ne] =
+	   struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*ratio), right);
+      motor[motor_se] =
+	   struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*ratio), right);
+      motor[motor_sw] =
+	   struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*ratio), right);
+      motor[motor_nw] =
+	   struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*ratio), right);
+	}
   }
 }
