@@ -33,28 +33,33 @@ int sign(float v) {
     return -1;
 }
 
+float _atan(float x) {
+  float tn = atan(x)+PI/2;
+  return vexRT[Ch3] > 0 ? tn : tn+PI;
+}
+
 // Determine the direction based on wheel orientation and control input
 int cal(int quad) {
   float tmp = 0;
   switch(quad) {
 	// Motor_NE, Quadrant I
     case 1:
-	  tmp = sin(atan(vexRT[Ch3]/vexRT[Ch4])-PI/4);
+	  tmp = sin(_atan(vexRT[Ch3]/vexRT[Ch4])-PI/4);
 	  return sign(tmp);
 	  break;
 	// Motor_NW, Quadrant II
     case 2:
-	  tmp = cos(atan(vexRT[Ch3]/vexRT[Ch4])+3*PI/4);
+	  tmp = cos(_atan(vexRT[Ch3]/vexRT[Ch4])+3*PI/4);
 	  return sign(tmp);
 	  break;
 	// Motor_SW, Quadrant III
     case 3:
-	  tmp = cos(atan(vexRT[Ch3]/vexRT[Ch4])+I/4);
+	  tmp = cos(_atan(vexRT[Ch3]/vexRT[Ch4])+I/4);
 	  return sign(tmp);
 	  break;
 	// Motor_SE, Quadrant IV
     case 4:
-	  tmp = sin(atan(vexRT[Ch3]/vexRT[Ch4])+PI/4);
+	  tmp = sin(_atan(vexRT[Ch3]/vexRT[Ch4])+PI/4);
 	  return sign(tmp);
 	  break;
   }
@@ -89,7 +94,7 @@ task main() {
       motor[motor_sw] = struggle(cal(3)*left, right);
       motor[motor_nw] = struggle(cal(2)*left, right);
 	  // EXPERIMENT FIVE
-	  ratio = abs(sin(atan((vexRT[Ch3]/vexRT[Ch4])));
+	  ratio = abs(sin(_atan((vexRT[Ch3]/vexRT[Ch4])));
       motor[motor_ne] =
 	   struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*ratio), right);
       motor[motor_se] =
