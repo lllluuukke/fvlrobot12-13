@@ -1,8 +1,10 @@
 #pragma config(Sensor, dgtl1,  touch,    sensorTouch)
-#pragma config(Motor,  port2,  motor_ne, tmotorVex269, openLoop, reversed)
-#pragma config(Motor,  port3,  motor_se, tmotorVex269, openLoop, reversed)
-#pragma config(Motor,  port4,  motor_sw, tmotorVex269, openLoop, reversed)
-#pragma config(Motor,  port5,  motor_nw, tmotorVex269, openLoop, reversed)
+#pragma config(Motor,  port2,  motor_ne, tmotorVex393, openLoop, reversed)
+#pragma config(Motor,  port3,  motor_se, tmotorVex393, openLoop, reversed)
+#pragma config(Motor,  port4,  motor_sw, tmotorVex393, openLoop, reversed)
+#pragma config(Motor,  port5,  motor_nw, tmotorVex393, openLoop, reversed)
+#pragma config(Motor,  port6,  motor_shoulder, tmotorVex393, openLoop)
+#pragma config(Motor,  port7,  motor_elbow, tmotorVex393, openLoop)
 
 //#include "x_form_test.c"
 /******************************************************************************
@@ -52,16 +54,6 @@ task main() {
 	   struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45), right);
       motor[motor_nw] =
 	   struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
-	  // EXPERIMENT FIVE
-	  ratio = abs(sin(_atan(vexRT[Ch3]/vexRT[Ch4])));
-      motor[motor_ne] =
-	   struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*ratio), right);
-      motor[motor_se] =
-	   struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*ratio), right);
-      motor[motor_sw] =
-	   struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*ratio), right);
-      motor[motor_nw] =
-	   struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*ratio), right);
 	}
   }
 }
