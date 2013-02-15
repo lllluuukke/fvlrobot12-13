@@ -3,14 +3,10 @@
 #pragma config(Motor,  port3,  motor_se, tmotorVex393, openLoop, reversed)
 #pragma config(Motor,  port4,  motor_sw, tmotorVex393, openLoop, reversed)
 #pragma config(Motor,  port5,  motor_nw, tmotorVex393, openLoop, reversed)
-#pragma config(Motor,  port6,  motor_shoulder, tmotorVex393, openLoop)
-#pragma config(Motor,  port7,  motor_elbow, tmotorVex393, openLoop)
+#pragma config(Motor,  port6,  motor_shoulder_e, tmotorVex393, openLoop)
+#pragma config(Motor,  port7,  motor_shoulder_w, tmotorVex393, openLoop)
+#pragma config(Motor,  port8,  motor_elbow, tmotorVex393, openLoop)
 
-//#include "x_form_test.c"
-/******************************************************************************
- * EXPERIMENTAL!!!
- * This file enables remote control of a holonomic x-formed robot base.
- *****************************************************************************/
 #define SIN45 .8509
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
@@ -32,28 +28,45 @@ float _atan(float x) {
   return vexRT[Ch3] > 0 ? tn : tn+PI;
 }
 
+int arm(int a, int b) {
+  if(a == 1 && b == 0)
+    return 1;
+  else if(a == 0 && b == 1)
+    return -1;
+  return 0;
+}
+
+int hand(int a, int b, int state) {
+  if(a == 1 && b == 1)
+    return state;
+  return arm(a,b);
+}
+
+void drop_bag() {
+  motor[motor_elbow] = 127;
+  wait10Msec(100);
+}
+
 task main() {
-  int left = 0, right = 0, ratio = 0;
-  while(!SensorValue[touch]) {
-    if(vexRT[Btn5U] || vexRT[Btn5D] || vexRT[Btn6U] || vexRT[Btn6D] ||
-      vexRT[Btn7U] || vexRT[Btn7R] || vexRT[Btn7D] || vexRT[Btn7L] ||
-      vexRT[Btn8U] || vexRT[Btn8R] || vexRT[Btn8D] || vexRT[Btn8L]) {
-      motor[motor_ne] = 0;
-      motor[motor_ne] = 0;
-      motor[motor_ne] = 0;
-      motor[motor_ne] = 0;
-    }
-    else {
-	  right = -vexRT[Ch1]/2;
-      // EXPERIMENT TWO
-      motor[motor_ne] =
-	   struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*SIN45), right);
-      motor[motor_se] =
-	   struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
-      motor[motor_sw] =
-	   struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45), right);
-      motor[motor_nw] =
-	   struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
-	}
+  int right = 0;
+  int arm_state, hand_state = 0;
+  while(1) {
+	right = -vexRT[Ch1]/2;
+    motor[motor_ne] =
+	 struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*SIN45), right);
+    motor[motor_se] =
+	 struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
+    motor[motor_sw] =
+	 struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45), right);
+    motor[motor_nw] =
+	 struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
+
+    arm_state = 127*arm(vexRT[Btn5U], vexRT[Btn5D]);
+	motor[motor_shoulder_e] = arm_state;
+	motor[motor_shoulder_w] = arm_state;
+
+    hand_state = 63*hand(vexRT[Btn6U], vexRT[Btn6D], hand_state);
+	motor[motor_elbow] = hand_state;
+	motor[motor_elbow] = hand_state;
   }
 }
