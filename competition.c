@@ -28,8 +28,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void pre_auton()
-{
+void pre_auton() {
   // Set bStopTasksBetweenModes to false if you want to keep user created tasks running between
   // Autonomous and Tele-Op modes. You will need to manage all user created tasks if set to false.
   bStopTasksBetweenModes = true;
@@ -47,13 +46,30 @@ void pre_auton()
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-task autonomous()
-{
-  // .....................................................................................
-  // Insert user code here.
-  // .....................................................................................
+void move(int dir, int time) {
+    // 0 Forward, 1 Backward, 2 Left, 3 Roght
+    motor[motor_ne] = ((dir*dir+2)%3-1)*127;
+    motor[motor_se] = (1-2*(dir&1))*127;
+    motor[motor_sw] = (1-(dir*dir+2)%3)*127;
+    motor[motor_nw] = (2*(dir&1)-1)*127;
+    wait10Msec(100*time);
+}
 
-	AutonomousCodePlaceholderForTesting();  // Remove this function call once you have "real" code.
+void _stop() {
+  motor[motor_ne] = 0;
+  motor[motor_se] = 0;
+  motor[motor_sw] = 0;
+  motor[motor_nw] = 0;
+  motor[motor_shoulder_e] = 0;
+  motor[motor_shoulder_w] = 0;
+  motor[motor_elbow] = 0;
+}
+
+task autonomous() {
+    move(0, 2);
+    motor[motor_elbow] = -128;
+    wait10Msec(150);
+    _stop();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -77,11 +93,6 @@ int struggle(int a, int b) {
   	}
 }
 
-float _atan(float x) {
-  	float tn = atan(x)+PI/2;
-  	return vexRT[Ch3] > 0 ? tn : tn+PI;
-}
-
 int arm(int a, int b) {
   	if(a == 1 && b == 0)
     	return 1;
@@ -101,39 +112,31 @@ void drop_bag() {
   	wait10Msec(100);
 }
 
-task usercontrol()
-{
+task usercontrol() {
 	// User control code here, inside the loop
 
-	while (true)
-	{
-	  	// This is the main execution loop for the user control program. Each time through the loop
-	  	// your program should update motor + servo values based on feedback from the joysticks.
+	int right = 0;
+  	int arm_state, hand_state = 0;
+	while (true) {
+  	// This is the main execution loop for the user control program. Each time through the loop
+  	// your program should update motor + servo values based on feedback from the joysticks.
 
-	  	// .....................................................................................
-	  	// Insert user code here. This is where you use the joystick values to update your motors, etc.
-	  	// .....................................................................................
+		right = -vexRT[Ch1]/2;
+		motor[motor_ne] =
+ 		 struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*SIN45), right);
+		motor[motor_se] =
+ 		 struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
+		motor[motor_sw] =
+ 		 struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45), right);
+		motor[motor_nw] =
+ 		 struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
 
-		int right = 0;
-  		int arm_state, hand_state = 0;
-  		while(1) {
-			right = -vexRT[Ch1]/2;
-    		motor[motor_ne] =
-	 		 struggle((int)(((float)(vexRT[Ch3]-vexRT[Ch4]))*SIN45), right);
-    		motor[motor_se] =
-	 		 struggle((int)(((float)(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
-    		motor[motor_sw] =
-	 		 struggle((int)(((float)(vexRT[Ch4]-vexRT[Ch3]))*SIN45), right);
-    		motor[motor_nw] =
-	 		 struggle((int)(((float)-1*(vexRT[Ch4]+vexRT[Ch3]))*SIN45), right);
+		arm_state = 127*arm(vexRT[Btn5U], vexRT[Btn5D]);
+		motor[motor_shoulder_e] = arm_state;
+		motor[motor_shoulder_w] = arm_state;
 
-    		arm_state = 127*arm(vexRT[Btn5U], vexRT[Btn5D]);
-			motor[motor_shoulder_e] = arm_state;
-			motor[motor_shoulder_w] = arm_state;
-
-    		hand_state = 63*hand(vexRT[Btn6U], vexRT[Btn6D], hand_state);
-			motor[motor_elbow] = hand_state;
-			motor[motor_elbow] = hand_state;
-  		}
+		hand_state = 63*hand(vexRT[Btn6U], vexRT[Btn6D], hand_state);
+		motor[motor_elbow] = hand_state;
+		motor[motor_elbow] = hand_state;
 	}
 }

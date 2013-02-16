@@ -12,12 +12,12 @@
 #define TIME 2
 
 void move(int dir) {
+  // 0 Forward, 1 Backward, 2 Left, 3 Roght
   motor[motor_ne] = ((dir*dir+2)%3-1)*POWER;
   motor[motor_se] = (1-2*(dir&1))*POWER;
   motor[motor_sw] = (1-(dir*dir+2)%3)*POWER;
   motor[motor_nw] = (2*(dir&1)-1)*POWER;
   wait10Msec(100*TIME);
-
 }
 
 void forward() {
@@ -58,6 +58,9 @@ void _stop() {
   motor[motor_se] = 0;
   motor[motor_sw] = 0;
   motor[motor_nw] = 0;
+  motor[motor_shoulder_e] = 0;
+  motor[motor_shoulder_w] = 0;
+  motor[motor_elbow] = 0;
 }
 
 task main() {
